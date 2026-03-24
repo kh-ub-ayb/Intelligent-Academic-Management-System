@@ -21,6 +21,12 @@ export const userService = {
     deactivateUser: async (userId) => {
         const res = await api.patch(`/users/${userId}/deactivate`);
         return res.data;
+    },
+
+    getAuditLogs: async (filters = {}) => {
+        const params = new URLSearchParams(filters).toString();
+        const res = await api.get(`/users/audit-logs${params ? `?${params}` : ''}`);
+        return res.data;
     }
 };
 

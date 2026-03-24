@@ -19,6 +19,7 @@ const attendanceRoutes = require('./routes/attendance.route');
 const feeRoutes = require('./routes/fee.route');
 const announcementRoutes = require('./routes/announcement.route');
 const aiRoutes = require('./routes/ai.route');
+const institutionRoutes = require('./routes/institution.route');
 
 
 const app = express();
@@ -64,6 +65,7 @@ app.use('/api/v1/attendance', attendanceRoutes);
 app.use('/api/v1/fees', feeRoutes);
 app.use('/api/v1/announcements', announcementRoutes);
 app.use('/api/v1/ai', aiRoutes);
+app.use('/api/v1/institutions', institutionRoutes);
 
 
 app.all('*', (req, res, next) => {
