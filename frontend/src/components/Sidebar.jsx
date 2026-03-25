@@ -62,21 +62,23 @@ const Sidebar = () => {
     const navLinks = getNavLinks();
 
     return (
-        <aside className="w-64 bg-gray-900 text-white min-h-screen hidden lg:flex flex-col fixed h-full transition-all duration-300">
-            <div className="h-16 flex items-center justify-center border-b border-gray-800">
-                <h1 className="text-2xl font-bold tracking-wider text-blue-500">IAMS</h1>
+        <aside className="w-64 bg-slate-900 bg-gradient-to-b from-slate-900 via-[#0f172a] to-black text-white min-h-screen hidden lg:flex flex-col fixed h-full transition-all duration-300 shadow-2xl z-20 shadow-blue-900/10 border-r border-slate-800">
+            <div className="h-16 flex items-center justify-center border-b border-white/5 bg-white/5 backdrop-blur-sm">
+                <h1 className="text-2xl font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300 transform hover:scale-105 transition-transform cursor-pointer">
+                    IAMS
+                </h1>
             </div>
 
-            <nav className="flex-grow p-4 space-y-2 overflow-y-auto mt-4">
+            <nav className="flex-grow p-4 space-y-1.5 overflow-y-auto mt-4">
                 {navLinks.map((link) => {
                     const isActive = location.pathname === link.path || location.pathname.startsWith(link.path + '/');
                     return (
                         <Link
                             key={link.name}
                             to={link.path}
-                            className={`block px-4 py-3 rounded-lg transition-colors ${isActive
-                                ? 'bg-blue-600 text-white font-medium shadow-md'
-                                : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                            className={`block px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium ${isActive
+                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_4px_15px_rgba(79,70,229,0.4)] border border-blue-500/30 translate-x-1'
+                                : 'text-slate-400 hover:bg-white/5 hover:text-white hover:translate-x-1'
                                 }`}
                         >
                             {link.name}
@@ -85,8 +87,8 @@ const Sidebar = () => {
                 })}
             </nav>
 
-            <div className="p-4 border-t border-gray-800 text-xs text-gray-500 text-center">
-                v1.0.0
+            <div className="p-4 border-t border-white/5 text-xs text-slate-500 text-center font-medium bg-white/5 backdrop-blur-sm">
+                IAMS System v1.0.0
             </div>
         </aside>
     );

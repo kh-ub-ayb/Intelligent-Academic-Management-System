@@ -1,11 +1,11 @@
 export const Button = ({ children, variant = 'primary', className = '', isLoading, ...props }) => {
-    const baseStyles = "px-4 py-2 rounded-md font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2";
+    const baseStyles = "px-5 py-2.5 rounded-xl font-bold text-[14.5px] transition-all duration-300 focus:outline-none focus:ring-4 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 transform active:scale-[0.98]";
 
     const variants = {
-        primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-        secondary: "bg-indigo-50 text-indigo-700 hover:bg-indigo-100 focus:ring-indigo-500",
-        danger: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500",
-        outline: "border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500"
+        primary: "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 focus:ring-blue-500/20",
+        secondary: "bg-white/80 backdrop-blur border border-slate-200 text-slate-700 hover:bg-slate-50 hover:border-slate-300 shadow-sm focus:ring-slate-100",
+        danger: "bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white shadow-lg shadow-red-500/25 hover:shadow-red-500/40 focus:ring-red-500/20",
+        outline: "border-2 border-slate-200 text-slate-600 hover:border-indigo-400 hover:text-indigo-600 focus:ring-indigo-500/10 bg-transparent hover:bg-indigo-50/30"
     };
 
     return (
