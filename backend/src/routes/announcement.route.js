@@ -29,6 +29,13 @@ router.get(
     ctrl.getAnnouncements
 );
 
+// ─── Delete Announcement ──────────────────────────────────────────────────────
+router.delete(
+    '/:id',
+    allowRoles('Manager', 'ClassTeacher', 'SuperAdmin'),
+    ctrl.deleteAnnouncement
+);
+
 module.exports = router;
 
 // © 2026 Syed Khubayb Ur Rahman

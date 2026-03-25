@@ -64,10 +64,22 @@ const getAnnouncements = async (req, res, next) => {
     } catch (err) { return next(err); }
 };
 
+/**
+ * DELETE /announcements/:id
+ * Deletes an announcement securely.
+ */
+const deleteAnnouncement = async (req, res, next) => {
+    try {
+        const result = await announcementService.deleteAnnouncement(req.user, req.params.id);
+        return res.status(200).json({ success: true, ...result });
+    } catch (err) { return next(err); }
+};
+
 module.exports = {
     createAnnouncement,
     getStudentAnnouncements,
     getAnnouncements,
+    deleteAnnouncement,
 };
 
 // © 2026 Syed Khubayb Ur Rahman

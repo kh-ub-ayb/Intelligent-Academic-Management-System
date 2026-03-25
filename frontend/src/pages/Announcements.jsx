@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { Table } from '../components/ui/Table';
 import { announcementService } from '../services/announcement.service';
 import { academicService } from '../services/academic.service';
 import { useAuth } from '../context/AuthContext';
@@ -104,6 +103,18 @@ const Announcements = () => {
         }
     };
 
+    const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this announcement?')) return;
+        try {
+            await announcementService.deleteAnnouncement(id);
+            setAnnouncements(prev => prev.filter(ann => ann._id !== id));
+            setMessage('Announcement deleted successfully!');
+            setTimeout(() => setMessage(''), 3000);
+        } catch (err) {
+            alert(err.response?.data?.error?.message || 'Failed to delete announcement.');
+        }
+    };
+
     return (
         <div className="space-y-6">
             <div>
@@ -121,7 +132,7 @@ const Announcements = () => {
                         </h2>
 
                         {message && (
-                            <div className="p-3 mb-4 rounded text-sm bg-white border border-green-200 text-green-700 font-medium">
+                            <div className="p-3 mb-4 rounded text-sm bg-white border border-green-200 text-green-700 font-medium transition-all">
                                 {message}
                             </div>
                         )}
@@ -184,7 +195,7 @@ const Announcements = () => {
                                         </div>
                                         <p className="text-sm text-gray-700 whitespace-pre-wrap mb-3">{ann.content}</p>
 
-                                        <div className="flex flex-wrap gap-2 mt-2 pt-2 border-t border-gray-100">
+                                        <div className="flex flex-wrap gap-2 mt-2 pt-2 border-t border-gray-100 items-center">
                                             <span className="text-xs text-gray-500">Target:</span>
                                             {(!ann.target?.branch && !ann.target?.semester) ? (
                                                 <span className="px-2 py-0.5 bg-gray-200 text-gray-700 text-xs rounded font-medium">Global</span>
@@ -196,6 +207,17 @@ const Announcements = () => {
                                                 </>
                                             )}
                                             <span className="ml-auto text-xs text-gray-400 italic">By: {ann.createdBy?.name || 'Unknown'}</span>
+                                            
+                                            {/* Allow SuperAdmin, Manager, or the original author to delete */}
+                                            {(user?.role === 'SuperAdmin' || user?.role === 'Manager' || user?.userId === ann.createdBy?._id) && (
+                                                <button
+                                                    onClick={() => handleDelete(ann._id)}
+                                                    className="ml-3 text-red-400 hover:text-red-600 transition"
+                                                    title="Delete Announcement"
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 ))

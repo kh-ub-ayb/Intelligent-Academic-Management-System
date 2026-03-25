@@ -101,10 +101,29 @@ const getAnnouncementsForTarget = async (institutionId, filters) => {
         .sort({ createdAt: -1 });
 };
 
+/**
+ * deleteAnnouncement
+ * SuperAdmins/Managers can delete anything. Authors can only delete their own announcements.
+ */
+const deleteAnnouncement = async (callerPayload, announcementId) => {
+    const announcement = await Announcement.findById(announcementId);
+    if (!announcement) throw new AppError('Announcement not found.', 404);
+
+    if (callerPayload.role !== 'SuperAdmin' && callerPayload.role !== 'Manager') {
+        if (announcement.createdBy.toString() !== callerPayload.userId) {
+            throw new AppError('You do not have permission to delete this announcement.', 403);
+        }
+    }
+
+    await announcement.deleteOne();
+    return { message: 'Announcement deleted successfully.' };
+};
+
 module.exports = {
     createAnnouncement,
     getStudentAnnouncements,
     getAnnouncementsForTarget,
+    deleteAnnouncement,
 };
 
 // © 2026 Syed Khubayb Ur Rahman

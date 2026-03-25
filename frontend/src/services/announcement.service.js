@@ -18,6 +18,11 @@ export const announcementService = {
         // Student view (auto-scoped)
         const res = await api.get('/announcements/student');
         return res.data;
+    },
+
+    deleteAnnouncement: async (id) => {
+        const res = await api.delete(`/announcements/${id}`);
+        return res.data;
     }
 };
 
