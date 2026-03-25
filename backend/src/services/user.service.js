@@ -146,17 +146,18 @@ const getUserById = async (userId) => {
 };
 
 /**
- * deactivateUser — soft disable with audit log.
+ * deactivateUser — soft disable/enable with audit log. Acts as a toggle.
  */
 const deactivateUser = async (callerPayload, targetUserId) => {
     const user = await User.findById(targetUserId).populate('role', 'name');
     if (!user) throw new AppError('User not found.', 404);
 
-    user.isActive = false;
+    // Toggle the status
+    user.isActive = !user.isActive;
     await user.save();
 
     await AuditLog.create({
-        action: 'USER_DEACTIVATED',
+        action: user.isActive ? 'USER_ACTIVATED' : 'USER_DEACTIVATED',
         performedBy: callerPayload.userId,
         performedByRole: callerPayload.role,
         targetUser: user._id,
@@ -164,7 +165,7 @@ const deactivateUser = async (callerPayload, targetUserId) => {
         meta: { email: user.email },
     });
 
-    return { message: `User ${user.email} has been deactivated.` };
+    return { message: `User ${user.email} has been ${user.isActive ? 'activated' : 'deactivated'}.` };
 };
 
 /**
