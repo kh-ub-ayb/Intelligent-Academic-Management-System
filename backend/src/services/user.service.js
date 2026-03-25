@@ -157,7 +157,7 @@ const deactivateUser = async (callerPayload, targetUserId) => {
     await user.save();
 
     await AuditLog.create({
-        action: user.isActive ? 'USER_ACTIVATED' : 'USER_DEACTIVATED',
+        action: user.isActive ? 'USER_REACTIVATED' : 'USER_DEACTIVATED',
         performedBy: callerPayload.userId,
         performedByRole: callerPayload.role,
         targetUser: user._id,
